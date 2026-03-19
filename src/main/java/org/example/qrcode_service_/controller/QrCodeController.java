@@ -1,5 +1,6 @@
 package org.example.qrcode_service_.controller;
 
+import org.example.qrcode_service_.dto.QrcodeRequestDto;
 import org.example.qrcode_service_.entity.Entity;
 import org.example.qrcode_service_.service.QrCodeService;
 import org.springframework.http.MediaType;
@@ -20,14 +21,14 @@ public class QrCodeController {
     }
 
     @GetMapping("/qrcode")
-    public ResponseEntity<byte[]> qrcode(@RequestParam String contents, @RequestParam(defaultValue = "250") int size, @RequestParam(defaultValue = "L") String correction, @RequestParam(defaultValue = "png") String type) {
-        MediaType mediaType = switch (type) {
-            case "png" -> MediaType.IMAGE_PNG;
-            case "gif" -> MediaType.IMAGE_GIF;
+    public ResponseEntity<byte[]> qrcode(@RequestBody QrcodeRequestDto requestDto) {
+        MediaType mediaType = switch (requestDto.getType()) {
+            case PNG -> MediaType.IMAGE_PNG;
+            case GIF -> MediaType.IMAGE_GIF;
             default -> MediaType.IMAGE_JPEG;
         };
 
-        byte[] qrcode = qrCodeService.generateQrCode(contents, size, correction, type);
+        byte[] qrcode = qrCodeService.generateQrCode(requestDto.getContents(), requestDto.getSize(), requestDto.getCorrection(), requestDto.getType());
         return ResponseEntity.ok().contentType(mediaType).body(qrcode);
 
     }

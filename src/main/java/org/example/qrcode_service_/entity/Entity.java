@@ -1,8 +1,8 @@
 package org.example.qrcode_service_.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import org.example.qrcode_service_.correctiontypes.Correction;
+import org.example.qrcode_service_.typeofqrcode.QrcodeType;
 
 import java.time.LocalDateTime;
 
@@ -13,12 +13,16 @@ public class Entity {
 
     private String contents;
     private int size;
-    private String correction;
-    private String type;
+
+    @Enumerated(EnumType.STRING)
+    private Correction correction;
+
+    @Enumerated(EnumType.STRING)
+    private QrcodeType type;
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    public String getType() {
+    public QrcodeType   getType() {
         return type;
     }
 
@@ -38,7 +42,7 @@ public class Entity {
         return contents;
     }
 
-    public String getCorrection() {
+    public Correction getCorrection() {
         return correction;
     }
 
@@ -50,7 +54,7 @@ public class Entity {
         this.contents = contents;
     }
 
-    public void setCorrection(String correction) {
+    public void setCorrection(Correction correction) {
         this.correction = correction;
     }
 
@@ -62,7 +66,7 @@ public class Entity {
         this.size = size;
     }
 
-    public void setType(String type) {
+    public void setType(QrcodeType type) {
         this.type = type;
     }
 }
