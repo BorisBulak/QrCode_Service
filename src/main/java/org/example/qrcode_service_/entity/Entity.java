@@ -6,6 +6,8 @@ import org.example.qrcode_service_.typeofqrcode.QrcodeType;
 
 import java.time.LocalDateTime;
 
+@jakarta.persistence.Entity
+@Table(name = "qrcodes")
 public class Entity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
