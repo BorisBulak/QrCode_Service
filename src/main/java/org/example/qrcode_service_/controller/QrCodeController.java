@@ -2,7 +2,8 @@ package org.example.qrcode_service_.controller;
 
 import jakarta.validation.Valid;
 import org.example.qrcode_service_.dto.QrcodeRequestDto;
-import org.example.qrcode_service_.entity.Entity;
+import org.example.qrcode_service_.dto.QrcodeResponseDto;
+import org.example.qrcode_service_.entity.QrCodeEntity;
 import org.example.qrcode_service_.service.QrCodeService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,16 +30,17 @@ public class QrCodeController {
             default -> MediaType.IMAGE_JPEG;
         };
 
-        byte[] qrcode = qrCodeService.generateQrCode(requestDto.getContents(), requestDto.getSize(), requestDto.getCorrection(), requestDto.getType());
+        byte[] qrcode = qrCodeService.generateQrCode(requestDto);
+
         return ResponseEntity.ok().contentType(mediaType).body(qrcode);
 
     }
 
     @GetMapping("/getQrcode/{id}")
     public ResponseEntity<byte[]> getQrcode(@PathVariable long id) {
-        Entity entity = qrCodeService.getEntityById(id);
+        QrCodeEntity qrCodeEntity = qrCodeService.getEntityById(id);
 
-        MediaType mediaType = switch (entity.getType()){
+        MediaType mediaType = switch (qrCodeEntity.getType()) {
             case PNG -> MediaType.IMAGE_PNG;
             case GIF -> MediaType.IMAGE_GIF;
             default -> MediaType.IMAGE_JPEG;
@@ -50,7 +52,7 @@ public class QrCodeController {
     }
 
     @GetMapping("/allQrcodes")
-    public ResponseEntity<List<Entity>> getAllQrCodes() {
+    public ResponseEntity<List<QrcodeResponseDto>> getAllQrCodes() {
         return ResponseEntity
                 .ok()
                 .body(qrCodeService.getAllQrCodes());

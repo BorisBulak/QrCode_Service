@@ -1,5 +1,6 @@
 package org.example.qrcode_service_.dto;
 
+import org.example.qrcode_service_.correctiontypes.Correction;
 import org.example.qrcode_service_.typeofqrcode.QrcodeType;
 
 import java.time.LocalDateTime;
@@ -7,17 +8,17 @@ import java.time.LocalDateTime;
 public class QrcodeResponseDto {
     private Long id;
     private String contents;
-    private String correction;
+    private Correction correction;
     private int size;
     private QrcodeType type;
     private LocalDateTime createdAt;
-    private byte[] qrcode;
+
 
     public QrcodeType getType() {
         return type;
     }
 
-    public String getCorrection() {
+    public Correction getCorrection() {
         return correction;
     }
 
@@ -37,7 +38,7 @@ public class QrcodeResponseDto {
         return id;
     }
 
-    public void setCorrection(String correction) {
+    public void setCorrection(Correction correction) {
         this.correction = correction;
     }
 
@@ -59,13 +60,5 @@ public class QrcodeResponseDto {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public byte[] getQrcode() {
-        return qrcode;
-    }
-
-    public void setQrcode(byte[] qrcode) {
-        this.qrcode = qrcode;
     }
 }

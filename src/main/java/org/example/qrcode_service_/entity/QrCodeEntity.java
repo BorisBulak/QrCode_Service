@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @jakarta.persistence.Entity
 @Table(name = "qrcodes")
-public class Entity {
+public class QrCodeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
