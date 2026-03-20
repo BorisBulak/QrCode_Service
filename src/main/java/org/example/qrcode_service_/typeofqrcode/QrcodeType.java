@@ -1,17 +1,17 @@
 package org.example.qrcode_service_.typeofqrcode;
 
+import lombok.Getter;
+
+@Getter
 public enum QrcodeType {
     GIF("GIF"),
     PNG("PNG"),
-    JPEG("JPEG"),;
+    JPEG("JPEG"),
+    ;
 
-    private String name;
+    private final String name;
 
-     QrcodeType(String name){
+    QrcodeType(String name) {
         this.name = name;
-    }
-
-    public String getName() {
-        return name;
     }
 }

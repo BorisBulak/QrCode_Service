@@ -26,7 +26,7 @@ public class QrCodeService {
     private final QrCodeRepository qrCodeRepository;
     private final QrCodeMapper qrCodeMapper;
 
-    public QrCodeService(QrCodeRepository qrCodeRepository,QrCodeMapper qrCodeMapper) {
+    public QrCodeService(QrCodeRepository qrCodeRepository, QrCodeMapper qrCodeMapper) {
         this.qrCodeRepository = qrCodeRepository;
         this.qrCodeMapper = qrCodeMapper;
     }
@@ -38,8 +38,6 @@ public class QrCodeService {
     public QrcodeResponseDto toResponseDto(QrCodeEntity qrCodeEntity) {
         return qrCodeMapper.toResponseDto(qrCodeEntity);
     }
-
-
 
 
     public QrCodeEntity getEntityById(long id) {
@@ -65,22 +63,6 @@ public class QrCodeService {
 
     public byte[] rebuildQrcode(String contents, Integer size, Correction correction, QrcodeType type) {
         logger.info("Generating QR code for: " + contents);
-        if (contents == null || contents.isBlank()) {
-            throw new IllegalArgumentException("It cannot be blank");
-        }
-
-        if (size < 150 || size > 350) {
-            throw new IllegalArgumentException("Size must be between 150 and 350");
-        }
-
-        if (!"L".equals(correction.getCorrection()) && !"M".equals(correction.getCorrection()) && !"Q".equals(correction.getCorrection()) && !"H".equals(correction.getCorrection())) {
-            throw new IllegalArgumentException("Permitted error correction levels are L, M, Q, H");
-        }
-
-        if (!"jpeg".equals(type.getName()) && !"gif".equals(type.getName()) && !"png".equals(type.getName())) {
-            throw new IllegalArgumentException("Only png, jpeg and gif image types are supported");
-        }
-
         try {
             BitMatrix bitMatrix = writer.encode(contents, BarcodeFormat.QR_CODE, size, size);
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -118,7 +100,7 @@ public class QrCodeService {
         logger.severe("Getting all QR codes");
         return qrCodeRepository.findAll()
                 .stream()
-                .map(qrCodeMapper ::toResponseDto)
+                .map(qrCodeMapper::toResponseDto)
                 .toList();
     }
 

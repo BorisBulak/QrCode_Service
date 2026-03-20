@@ -1,5 +1,8 @@
 package org.example.qrcode_service_.correctiontypes;
 
+import lombok.Getter;
+
+@Getter
 public enum Correction {
     L("L"),
     M("M"),
@@ -10,9 +13,5 @@ public enum Correction {
 
     Correction(String correction) {
         this.correction = correction;
-    }
-
-    public String getCorrection() {
-        return correction;
     }
 }
