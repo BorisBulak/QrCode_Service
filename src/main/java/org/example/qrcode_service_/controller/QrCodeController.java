@@ -1,6 +1,7 @@
 package org.example.qrcode_service_.controller;
 
 import jakarta.validation.Valid;
+import org.example.qrcode_service_.baseurl.BaseUrl;
 import org.example.qrcode_service_.dto.QrcodeRequestDto;
 import org.example.qrcode_service_.dto.QrcodeResponseDto;
 import org.example.qrcode_service_.entity.QrCodeEntity;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @Validated
 @RestController
-@RequestMapping("/api")
+@RequestMapping(BaseUrl.url)
 public class QrCodeController {
     private final QrCodeService qrCodeService;
 
@@ -22,7 +23,7 @@ public class QrCodeController {
         this.qrCodeService = qrCodeService;
     }
 
-    @PostMapping("/createQrcode")
+    @PostMapping()
     public ResponseEntity<byte[]> createQrcode(@Valid @RequestBody QrcodeRequestDto requestDto) {
         MediaType mediaType = switch (requestDto.getType()) {
             case PNG -> MediaType.IMAGE_PNG;
@@ -36,29 +37,26 @@ public class QrCodeController {
 
     }
 
-    @GetMapping("/getQrcode/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<byte[]> getQrcode(@PathVariable long id) {
         QrCodeEntity qrCodeEntity = qrCodeService.getEntityById(id);
+        MediaType mediaType = qrCodeService.getMediaTypeById(id);
 
-        MediaType mediaType = switch (qrCodeEntity.getType()) {
-            case PNG -> MediaType.IMAGE_PNG;
-            case GIF -> MediaType.IMAGE_GIF;
-            default -> MediaType.IMAGE_JPEG;
-        };
 
-        byte[] qrcodeById = qrCodeService.getQrcodeById(id);
+
+        byte[] qrcodeById = qrCodeService.rebuildQrcode(qrCodeEntity);
 
         return ResponseEntity.ok().contentType(mediaType).body(qrcodeById);
     }
 
-    @GetMapping("/allQrcodes")
+    @GetMapping("all")
     public ResponseEntity<List<QrcodeResponseDto>> getAllQrCodes() {
         return ResponseEntity
                 .ok()
                 .body(qrCodeService.getAllQrCodes());
     }
 
-    @DeleteMapping("/deleteQrCode/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<String> deleteQrCode(@PathVariable long id) {
         boolean deleted = qrCodeService.deleteQrcode(id);
         if (deleted) {
