@@ -1,4 +1,4 @@
-package org.example.qrcode_service_.correctiontypes;
+package org.example.qrcode_service_.enums;
 
 import lombok.Getter;
 

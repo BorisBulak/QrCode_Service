@@ -29,8 +29,12 @@ public class QrCodeService {
 
     public QrCodeEntity getEntityById(long id) {
         logger.info("Getting entity with id " + id);
-        return qrCodeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("QR code not found with id: " + id));
+        if (qrCodeRepository.existsById(id)){
+            logger.info("Entity found with id " + id);
+            return qrCodeRepository.getReferenceById(id);
+        }
+        logger.info("Entity does not exist with id  " + id);
+        return null;
     }
 
     public byte[] rebuildQrcode(QrCodeEntity qrCodeEntity) {
@@ -42,7 +46,7 @@ public class QrCodeService {
             logger.info("Generated QR code for: " + qrCodeEntity.getContents());
             return byteArrayOutputStream.toByteArray();
         } catch (Exception e) {
-            logger.severe(e.getMessage());
+            logger.warning(e.getMessage());
             return new byte[0];
         }
     }
@@ -62,7 +66,7 @@ public class QrCodeService {
             logger.info("Successfully generated QR code for: " + qrcodeRequestDto.getContents());
             return byteArrayOutputStream.toByteArray();
         } catch (Exception e) {
-            logger.severe(e.getMessage());
+            logger.warning(e.getMessage());
             return new byte[0];
         }
 

@@ -1,7 +1,7 @@
 package org.example.qrcode_service_.controller;
 
 import jakarta.validation.Valid;
-import org.example.qrcode_service_.baseurl.BaseUrl;
+import org.example.qrcode_service_.constants.RestConstants;
 import org.example.qrcode_service_.dto.QrcodeRequestDto;
 import org.example.qrcode_service_.dto.QrcodeResponseDto;
 import org.example.qrcode_service_.entity.QrCodeEntity;
@@ -15,7 +15,7 @@ import java.util.List;
 
 @Validated
 @RestController
-@RequestMapping(BaseUrl.url)
+@RequestMapping(RestConstants.QR_CODE_API)
 public class QrCodeController {
     private final QrCodeService qrCodeService;
 
@@ -37,7 +37,7 @@ public class QrCodeController {
 
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<byte[]> getQrcode(@PathVariable long id) {
         QrCodeEntity qrCodeEntity = qrCodeService.getEntityById(id);
         MediaType mediaType = qrCodeService.getMediaTypeById(id);
@@ -49,14 +49,14 @@ public class QrCodeController {
         return ResponseEntity.ok().contentType(mediaType).body(qrcodeById);
     }
 
-    @GetMapping("all")
+    @GetMapping("/all")
     public ResponseEntity<List<QrcodeResponseDto>> getAllQrCodes() {
         return ResponseEntity
                 .ok()
                 .body(qrCodeService.getAllQrCodes());
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteQrCode(@PathVariable long id) {
         boolean deleted = qrCodeService.deleteQrcode(id);
         if (deleted) {
