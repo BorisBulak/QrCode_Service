@@ -3,8 +3,8 @@ package org.example.qrcode_service_.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.example.qrcode_service_.correctiontypes.Correction;
-import org.example.qrcode_service_.typeofqrcode.QrcodeType;
+import org.example.qrcode_service_.enums.Correction;
+import org.example.qrcode_service_.enums.QrcodeType;
 
 import java.time.LocalDateTime;
 
